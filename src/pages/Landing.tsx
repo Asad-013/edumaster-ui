@@ -4,9 +4,20 @@ import { Button } from "@/components/ui/button";
 import { CourseCard } from "@/components/Course/CourseCard";
 import { courses } from "@/data/courses";
 import heroBg from "@/assets/hero-bg.jpg";
+import { useEffect, useState } from "react";
 
 export default function Landing() {
   const featuredCourses = courses.slice(0, 3);
+
+  const rotatingWords = ["Limits", "Boundaries", "Obstacles", "Expectations"];
+  const [currentWordIndex, setCurrentWordIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentWordIndex((prevIndex) => (prevIndex + 1) % rotatingWords.length);
+    }, 3000); // Change word every 3 seconds
+    return () => clearInterval(interval);
+  }, [rotatingWords.length]);
 
   return (
     <div className="min-h-screen">
@@ -24,14 +35,15 @@ export default function Landing() {
         
         <div className="relative z-20 container mx-auto px-4 text-center">
           <div className="max-w-4xl mx-auto space-y-8 animate-fade-in">
-            <h1 className="text-5xl md:text-7xl font-bold text-foreground leading-tight">
+            <h1 className="text-5xl md:text-7xl font-bold text-foreground leading-tight relative">
               Learn Without
-              <span className="block bg-gradient-primary bg-clip-text text-transparent">
-                Limits
+              <span className="block text-6xl md:text-8xl text-white relative z-10 overflow-hidden">
+                {rotatingWords[currentWordIndex]}
+                <span className="radial-gradient-glow absolute rounded-full opacity-75 animate-pulse top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></span>
               </span>
             </h1>
             
-            <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-xl md:text-3xl text-muted-foreground max-w-2xl mx-auto leading-relaxed tracking-wide drop-shadow-sm">
               Discover thousands of courses, connect with expert instructors, and advance your career with our cutting-edge learning platform.
             </p>
             
